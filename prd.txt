@@ -1,0 +1,478 @@
+  Pink Green Generator 网站需求文档（最终版）
+
+  1. 项目背景
+
+  1.1 需求背景
+
+  Pink Green Generator（粉绿生成器）源于"Brave Pink Hero Green"社会运动，该运动起源于2025年8月印尼抗议活动。"Brave
+  Pink"象征普通人的勇气，"Hero
+  Green"代表工人阶级的团结。这一颜色组合在社交媒体上迅速传播，成为数字表达和社会连带的象征。
+
+  1.2 市场定位
+
+  - 目标用户：社交媒体用户、内容创作者、支持社会运动的网友
+  - 核心价值：一键生成具有社会象征意义的粉绿双色调头像
+  - 差异化：专注于特定颜色组合，简化操作流程
+
+  2. 核心功能需求（MVP版本）
+
+  2.1 颜色定义（标准规范）
+
+  主要颜色：
+  - Brave Pink: #F784C5 (RGB: 247, 132, 197)
+  - Hero Green: #1B602F (RGB: 27, 96, 47)
+
+  色盲友好版本：
+  - Brave Pink (色盲友好): #F99FD2 (RGB: 249, 159, 210)
+  - Hero Green (色盲友好): #165027 (RGB: 22, 80, 39)
+
+  2.2 图片上传功能
+
+  功能描述：用户通过拖拽或点击上传图片
+  具体需求：
+  - 支持文件格式：JPEG、PNG、WebP
+  - 文件大小限制：10MB
+  - 拖拽上传 + 点击浏览文件
+  - 实时文件验证和错误提示
+  - 上传后自动应用Classic Colors效果
+
+  技术实现：HTML5 File API + FileReader
+
+  2.3 双色调效果处理
+
+  功能描述：自动将图片转换为粉绿双色调效果
+  具体需求：
+
+  2.3.1 Classic Colors（默认模式）
+
+  - 粉色作为高光色 (#F784C5)
+  - 绿色作为阴影色 (#1B602F)
+  - 上传即自动应用此效果
+
+  2.3.2 Reverse Duotone（反转模式）
+
+  - 绿色作为高光色 (#1B602F)
+  - 粉色作为阴影色 (#F784C5)
+  - 用户点击切换
+
+  2.3.3 Color-blind Friendly（无障碍模式）
+
+  - 使用色盲友好的颜色版本
+  - 保持相同的高光阴影逻辑
+  - 独立切换选项
+
+  技术实现：
+  - Canvas 2D Context处理图像数据
+  - 灰度转换 + 颜色映射算法
+  - ImageData像素级操作
+
+  2.4 用户控制选项
+
+  功能描述：提供三个简单的效果切换选项
+  具体需求：
+  - 单选按钮组：Classic Colors | Reverse Duotone | Color-blind Friendly
+  - 实时预览切换
+  - 默认选中Classic Colors
+  - 切换时平滑过渡效果
+
+  2.5 图片导出功能
+
+  功能描述：下载处理后的图片
+  具体需求：
+  - PNG格式输出（保持透明度）
+  - 保持原图分辨率
+  - 一键下载按钮
+  - 文件名格式：原文件名_pinkgreen.png
+
+  3. 页面结构与SEO
+
+  3.1 首页内容结构
+
+  H1标题：Pink Green Generator - Create Brave Pink Hero Green Effects Online
+  H2标题：
+  - Free Online Pink Green Photo Editor
+  - How to Create Pink Green Effects
+  - Privacy-First Image Processing
+
+  核心内容：
+  - 工具功能说明（100-150字）
+  - 使用步骤介绍（3步骤）
+  - 隐私承诺说明
+  - 社会运动背景简介
+
+  3.2 关于页面
+
+  H1标题：About Pink Green Generator - The Story Behind Brave Pink Hero Green
+  内容包括：
+  - Brave Pink Hero Green运动背景
+  - 颜色象征意义解释
+  - 技术特点和隐私保护
+  - 联系方式
+
+  4. 技术架构
+
+  4.1 前端技术栈
+
+  - 框架：Next.js 14 (App Router)
+  - 语言：TypeScript
+  - 样式：Tailwind CSS
+  - 图片处理：HTML5 Canvas API
+
+  4.2 核心算法实现
+
+  // 双色调处理核心算法
+  function applyDuotone(
+    imageData: ImageData,
+    shadowColor: RGB,
+    highlightColor: RGB
+  ): ImageData {
+    const data = imageData.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+      // 计算灰度值
+      const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+      const normalizedGray = gray / 255;
+
+      // 线性插值计算新颜色
+      data[i] = shadowColor.r + (highlightColor.r - shadowColor.r) * normalizedGray;
+      data[i + 1] = shadowColor.g + (highlightColor.g - shadowColor.g) * normalizedGray;
+      data[i + 2] = shadowColor.b + (highlightColor.b - shadowColor.b) * normalizedGray;
+      // Alpha通道保持不变
+    }
+
+    return imageData;
+  }
+
+  5. 产品原型图（ASCII）
+
+  5.1 桌面端主页布局
+
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                     Pink Green Generator                            │
+  │                                                                     │
+  │   [Home]  [About]                           [🌐 English] [GitHub]   │
+  └─────────────────────────────────────────────────────────────────────┘
+
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                                                                     │
+  │   Create Brave Pink Hero Green Effects Online - Free & Private      │
+  │                                                                     │
+  │                                                                     │
+  │     ┌────────────────────┐              ┌────────────────────┐      │
+  │     │                    │              │                    │      │
+  │     │    📁 Drop Your    │              │   🖼️ Preview       │      │
+  │     │    Image Here      │     ───→     │                    │      │
+  │     │  or Click Browse   │              │  [Processed Image] │      │
+  │     │                    │              │                    │      │
+  │     │   JPEG,PNG,WebP    │              │                    │      │
+  │     │     Max 10MB       │              │                    │      │
+  │     └────────────────────┘              └────────────────────┘      │
+  │                                                                     │
+  │                                                                     │
+  │   ┌─────────────────────────────────────────────────────────────┐   │
+  │   │                    Color Options                            │   │
+  │   │                                                             │   │
+  │   │   ⚫ Classic Colors    ○ Reverse Duotone  ○ Color-blind     │   │
+  │   │   (Pink highlights,    (Green highlights, (Accessible       │   │
+  │   │    Green shadows)      Pink shadows)      colors)           │   │
+  │   │                                                             │   │
+  │   │                 [Download PNG]                              │   │
+  │   └─────────────────────────────────────────────────────────────┘   │
+  │                                                                     │
+  └─────────────────────────────────────────────────────────────────────┘
+
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                         How It Works                                │
+  │                                                                     │
+  │    1️⃣ Upload Photo    →    2️⃣ Auto Effect    →    3️⃣ Download      │
+  │     Drag or click           Applied instantly       PNG result      │
+  │                                                                     │
+  │        🔒 100% Private - All processing in your browser            │
+  └─────────────────────────────────────────────────────────────────────┘
+
+  5.2 移动端主页布局
+
+  ┌─────────────────────┐
+  │ Pink Green Gen  [☰] │
+  └─────────────────────┘
+
+  ┌─────────────────────┐
+  │                     │
+  │ Create Brave Pink   │
+  │ Hero Green Effects  │
+  │                     │
+  │  ┌───────────────┐  │
+  │  │               │  │
+  │  │ 📁 Upload     │  │
+  │  │ Your Image    │  │
+  │  │               │  │
+  │  │ Tap or drag   │  │
+  │  │ Max 10MB      │  │
+  │  │               │  │
+  │  └───────────────┘  │
+  │                     │
+  │  ┌───────────────┐  │
+  │  │ 🖼️ Preview    │  │
+  │  │               │  │
+  │  │ [Auto applied │  │
+  │  │  pink green   │  │
+  │  │   effect]     │  │
+  │  │               │  │
+  │  └───────────────┘  │
+  │                     │
+  │ Color Options:      │
+  │ ⚫ Classic Colors   │
+  │ ○ Reverse Duotone   │
+  │ ○ Color-blind       │
+  │                     │
+  │ [Download PNG]      │
+  │                     │
+  │ 🔒 Privacy First    │
+  └─────────────────────┘
+
+  5.3 功能状态流程图
+
+  ┌─────────────┐
+  │Visit Website│
+  └─────┬───────┘
+        │
+        ▼
+  ┌─────────────┐
+  │Upload Image │ ◄──── 点击或拖拽
+  └─────┬───────┘
+        │
+        ▼
+  ┌─────────────┐
+  │File Valid?  │ ──No──┐
+  └─────┬───────┘       │
+        │Yes            ▼
+        ▼         ┌─────────────┐
+  ┌─────────────┐ │Show Error   │
+  │Load to      │ │Message      │
+  │Canvas       │ └─────────────┘
+  └─────┬───────┘
+        │
+        ▼
+  ┌─────────────┐
+  │Auto Apply   │ ◄──── 自动应用Classic Colors
+  │Classic      │
+  │Colors       │
+  └─────┬───────┘
+        │
+        ▼
+  ┌─────────────┐
+  │Show Preview │
+  │& Options    │ ◄──┐
+  └─────┬───────┘    │
+        │            │
+        ▼            │
+  ┌─────────────┐    │
+  │User Selects │ ───┘ 可选择其他效果
+  │Effect Type  │
+  └─────┬───────┘
+        │
+        ▼
+  ┌─────────────┐
+  │Download PNG │
+  └─────────────┘
+
+  5.4 颜色效果对比示意图
+
+  Original Image          Classic Colors         Reverse Duotone
+  ┌─────────────┐        ┌─────────────┐        ┌─────────────┐
+  │ 🏔️ Mountain │   →   │ 💗 Pink      │   ↔   │ 💚 Green    │
+  │    Scene    │        │ highlights  │        │ highlights  │
+  │             │        │ 💚 Green    │        │ 💗 Pink     │
+  │ (Grayscale) │        │ shadows     │        │ shadows     │
+  └─────────────┘        └─────────────┘        └─────────────┘
+
+  6. 开发优先级
+
+  MVP核心功能（Week 1-2）
+
+  1. ✅ 图片上传（拖拽+点击）
+  2. ✅ 自动Classic Colors效果
+  3. ✅ 三个效果选项切换
+  4. ✅ PNG下载功能
+  5. ✅ 基础响应式设计
+
+  SEO与内容（Week 3）
+
+  1. ✅ 首页SEO内容
+  2. ✅ 关于页面
+  3. ✅ Meta标签优化
+  4. ✅ 结构化数据
+
+  优化与发布（Week 4）
+
+  1. ✅ 性能优化
+  2. ✅ 错误处理
+  3. ✅ 跨浏览器测试
+  4. ✅ 部署到pinkgreengenerator.app
+
+==========================================
+版本更新记录 - Version 2.0
+==========================================
+
+更新日期：2025年9月4日
+版本：2.0 改进计划
+
+7. 技术问题解决
+
+7.1 ESLint版本升级
+- 将ESLint从8.57.1升级到最新的9.x版本
+- 更新配置文件格式（从eslintrc迁移到flat config）
+- 确保与Next.js 14兼容
+
+8. 视觉设计增强
+
+8.1 主题色彩和设计风格
+基于研究发现，采用以下设计方向：
+- 主色调: 保持Brave Pink (#F784C5) 和 Hero Green (#1B602F)
+- 设计风格: 现代、简洁的设计
+- 色彩象征: 体现勇气（粉色）和团结（绿色）的精神内涵
+- 视觉元素: 增加渐变、阴影效果，提升现代感
+
+9. SEO内容优化
+
+9.1 增量内容策略
+根据Google搜索热点，添加以下内容版块：
+- 使用教程: 图文并茂的编辑教程
+- 社交媒体集成: TikTok、Instagram使用案例
+
+10. SEO技术优化
+
+- 结构化数据标记
+- 元描述和标题优化
+- 图片SEO优化
+- 站点地图生成
+- 页面加载速度优化
+
+==========================================
+版本更新记录 - Version 3.0
+==========================================
+
+更新日期：2025年9月4日
+版本：3.0 审美优化重构
+
+11. 核心设计理念
+
+专注于网站视觉美学提升，参考优秀设计案例打造现代简洁界面
+- 核心目标：提升网站审美水平和用户体验
+- 设计风格：现代、简洁、专业
+- 去除复杂功能，聚焦核心价值
+
+12. 视觉设计系统重构
+
+12.1 色彩方案优化
+主色调：更纯净、更现代的配色
+- Brave Pink: #FF2D92 (活力粉色)
+- Hero Green: #00C896 (清新绿色)
+- 渐变色: linear-gradient(135deg, #FF2D92, #00C896)
+
+中性色：简洁系统
+- 主背景: #FFFFFF (纯白背景)
+- 次背景: #F8FAFC (浅灰背景)
+- 主文字: #1F2937 (深灰文字)
+- 辅助文字: #6B7280 (中灰文字)
+- 边框色: #E5E7EB
+
+13. 页面结构重构
+
+13.1 统一编辑界面
+功能描述：将上传和预览合并为单一智能区域
+具体需求：
+- 未上传时：显示上传提示和说明
+- 上传后：同一区域显示处理后的图片
+- 支持拖拽新图片直接替换当前图片
+- 保持效果选项和下载按钮的便捷访问
+
+技术实现：
+- 重构PhotoEditor组件，统一上传预览逻辑
+- 智能状态管理，根据有无图片切换UI
+- 流畅的状态转换动画
+
+13.2 内容整合策略
+- 删除/tutorial和/social-media独立页面
+- 将实用内容整合到首页相应版块
+- 新增FAQ版块解答常见问题
+- 保持About页面独立存在
+
+13.3 页面布局设计
+
+桌面端主页结构：
+1. 简洁顶部导航：Logo + About + GitHub链接
+2. Hero区域：主标题 + 简洁描述
+3. 核心编辑器：统一的上传/预览区域 + 效果选项 + 下载按钮
+4. How It Works：3步骤流程说明
+5. Key Features：3个核心特点展示
+6. FAQ版块：常见问题解答
+7. 简洁页脚：版权信息
+
+移动端布局：
+- 响应式适配，保持功能完整
+- Touch-friendly交互设计
+- 合适的间距和按钮大小
+
+14. 现代化设计元素
+
+14.1 视觉组件
+- 干净的卡片设计，适当的阴影效果
+- 优雅的圆角(8px-16px)和统一间距
+- 流畅的hover效果和状态变化
+- 精心设计的按钮和交互元素
+
+14.2 用户体验改进
+- 统一的上传预览体验
+- 即时的效果切换反馈
+- 清晰的状态提示和错误处理
+- 直观的操作流程
+
+15. FAQ版块内容
+
+常见问题包括：
+- 支持的图片格式和大小限制
+- 数据安全和隐私保护说明
+- 三种效果模式的区别说明
+- 移动端兼容性说明
+- 免费使用政策说明
+
+16. 技术实现要求
+
+16.1 组件重构
+- 统一ImageUpload和ImagePreview为单一组件
+- 优化CSS设计系统，使用现代视觉风格
+- 改进响应式布局确保各设备完美显示
+- 保持原有核心功能逻辑不变
+
+16.2 页面架构调整
+- 删除src/app/tutorial/和src/app/social-media/目录
+- 更新导航链接和路由配置
+- 整合内容到首页对应版块
+- 新增FAQ组件和样式
+
+17. 开发优先级 - Version 3.0
+
+Phase 1 - 设计系统重构（优先级：高）
+1. ✅ 更新全局CSS色彩系统
+2. ✅ 重构页面布局和卡片设计
+3. ✅ 统一编辑器组件开发
+4. ✅ 删除多余页面和路由
+
+Phase 2 - 内容整合（优先级：中）
+1. ✅ 整合教程内容到首页
+2. ✅ 新增FAQ版块
+3. ✅ 优化文案和用户引导
+4. ✅ 更新导航和链接
+
+Phase 3 - 用户体验优化（优先级：中）
+1. ✅ 完善响应式设计
+2. ✅ 优化交互动效
+3. ✅ 提升加载性能
+4. ✅ 跨浏览器兼容性测试
+
+预期成果：
+- 现代简洁的视觉设计
+- 流畅的用户操作体验  
+- 清晰的信息架构
+- 专业的产品形象
