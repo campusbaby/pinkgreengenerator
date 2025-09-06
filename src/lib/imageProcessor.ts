@@ -1,4 +1,5 @@
 import { RGB, EffectType, ColorPalette, ProcessedImage, FileValidation } from '@/types/editor';
+import imageConfig from '@/config/images';
 
 // 根据需求文档定义的颜色值
 export const COLORS = {
@@ -36,19 +37,19 @@ export const EFFECTS = {
 };
 
 export function validateFile(file: File): FileValidation {
-  const MAX_SIZE = 10 * 1024 * 1024; // 10MB
-  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+  const ALLOWED_TYPES = imageConfig.supportedFormats.map(format => `image/${format === 'jpg' ? 'jpeg' : format}`);
 
   if (!file) {
     return { isValid: false, error: 'No file selected' };
   }
 
-  if (file.size > MAX_SIZE) {
-    return { isValid: false, error: 'File size must be less than 10MB' };
+  if (file.size > imageConfig.maxFileSize) {
+    return { isValid: false, error: `File size must be less than ${Math.round(imageConfig.maxFileSize / 1024 / 1024)}MB` };
   }
 
   if (!ALLOWED_TYPES.includes(file.type)) {
-    return { isValid: false, error: 'File must be JPEG, PNG, or WebP format' };
+    const formatString = imageConfig.supportedFormats.map(f => f.toUpperCase()).join(', ');
+    return { isValid: false, error: `File must be ${formatString} format` };
   }
 
   return { isValid: true };
@@ -146,5 +147,5 @@ export function downloadImage(canvas: HTMLCanvasElement, originalFileName: strin
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  }, 'image/png');
+  }, 'image/png', imageConfig.quality.export / 100);
 }

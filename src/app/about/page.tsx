@@ -26,14 +26,7 @@ export default function About() {
               <Link href="/about" className="text-gray-900 font-medium">
                 About
               </Link>
-              <Link 
-                href="https://github.com" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
-              >
-                GitHub
-              </Link>
+
             </nav>
           </div>
         </div>

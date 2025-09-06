@@ -44,10 +44,14 @@ export default function EffectControls({
             />
             
             <div className="flex-1">
-              <div className="font-medium text-gray-900 mb-1">
+              <div className={`font-medium mb-1 ${
+                selectedEffect === key ? 'text-black' : 'text-white'
+              }`}>
                 {effect.name}
               </div>
-              <div className="text-sm text-gray-600">
+              <div className={`text-sm ${
+                selectedEffect === key ? 'text-black/70' : 'text-white/60'
+              }`}>
                 {key === 'classic' && '(Pink highlights, Green shadows)'}
                 {key === 'reverse' && '(Green highlights, Pink shadows)'}
                 {key === 'colorblind' && '(Accessible colors)'}

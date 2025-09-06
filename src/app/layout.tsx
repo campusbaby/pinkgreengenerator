@@ -1,12 +1,16 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
   title: 'Pink Green Generator - Create Brave Pink Hero Green Effects Online',
   description: 'Free online pink green photo editor. Transform your images with stunning Brave Pink Hero Green duotone effects. Privacy-first, browser-based processing. No registration required.',
   keywords: 'pink green generator, brave pink hero green, duotone photo editor, online photo filter, pink green photo effect, tiktok filter, instagram effect, social media photo editor',
   authors: [{ name: 'Pink Green Generator' }],
-  viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
   openGraph: {
     title: 'Pink Green Generator - Create Brave Pink Hero Green Effects Online',

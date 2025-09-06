@@ -97,20 +97,21 @@ export default function UnifiedEditor() {
   ];
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <div className="editor-container p-8">
+    <div className="w-full max-w-6xl mx-auto" id="editor">
+      <div className="space-y-12">
         {/* Main Editor Area */}
-        <div className="mb-8">
+        <div className="relative">
           <div
             onClick={handleClick}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             className={`
-              upload-zone cursor-pointer min-h-[400px] flex flex-col items-center justify-center text-center p-8
-              ${isDragOver ? 'dragover' : ''}
-              ${processedDataUrl ? 'has-image' : ''}
-              ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}
+              relative bg-card/50 backdrop-blur-sm rounded-3xl border border-white/10 cursor-pointer 
+              min-h-[500px] flex flex-col items-center justify-center text-center p-12 transition-all duration-300
+              ${isDragOver ? 'border-primary/50 bg-primary/5 scale-[1.02]' : ''}
+              ${processedDataUrl ? 'border-primary/30' : ''}
+              ${isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:border-white/20 hover:bg-card/70'}
             `}
           >
             <input
@@ -123,43 +124,54 @@ export default function UnifiedEditor() {
             />
             
             {!processedDataUrl ? (
-              <div className="space-y-6">
-                <div className="text-6xl">📸</div>
-                <div>
-                  <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-                    {isProcessing ? 'Processing...' : 'Drop Your Image Here'}
+              <div className="space-y-8">
+                <div className="text-8xl opacity-60">📸</div>
+                <div className="space-y-4">
+                  <h3 className="text-3xl font-bold text-foreground">
+                    {isProcessing ? 'Processing Your Image...' : 'Upload Your Image'}
                   </h3>
-                  <p className="text-gray-600 mb-4">
-                    or click to browse files
+                  <p className="text-xl text-foreground/70">
+                    Drag & drop or click to browse files
                   </p>
-                  <div className="text-sm text-gray-500 space-y-1">
-                    <p>Supports JPEG, PNG, WebP</p>
-                    <p>Maximum size: 10MB</p>
+                  <div className="text-foreground/50 space-y-2 text-lg">
+                    <p>Supports JPEG, PNG, WebP formats</p>
+                    <p>Maximum file size: 25MB</p>
                   </div>
                 </div>
                 {isDragOver && (
-                  <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-green-500/10 rounded-2xl flex items-center justify-center">
-                    <p className="text-pink-600 font-semibold text-lg">Release to upload</p>
+                  <div className="absolute inset-0 bg-gradient-accent/10 rounded-3xl flex items-center justify-center backdrop-blur-sm">
+                    <div className="text-center space-y-4">
+                      <div className="text-6xl">✨</div>
+                      <p className="text-2xl font-semibold text-white">Drop to upload</p>
+                    </div>
+                  </div>
+                )}
+                {isProcessing && (
+                  <div className="absolute inset-0 bg-background/50 rounded-3xl flex items-center justify-center backdrop-blur-sm">
+                    <div className="text-center space-y-4">
+                      <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary/30 border-t-primary mx-auto"></div>
+                      <p className="text-xl font-semibold text-foreground">Processing...</p>
+                    </div>
                   </div>
                 )}
               </div>
             ) : (
-              <div className="w-full">
+              <div className="w-full space-y-6">
                 <div className="relative">
                   <img
                     src={processedDataUrl}
                     alt="Processed image"
-                    className="max-w-full max-h-[400px] mx-auto rounded-lg shadow-lg"
+                    className="max-w-full max-h-[450px] mx-auto rounded-2xl shadow-2xl"
                   />
                   {isProcessing && (
-                    <div className="absolute inset-0 bg-black/20 rounded-lg flex items-center justify-center">
-                      <div className="bg-white rounded-full p-3">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-pink-600"></div>
+                    <div className="absolute inset-0 bg-background/50 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                      <div className="bg-card rounded-full p-4 shadow-xl">
+                        <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary/30 border-t-primary"></div>
                       </div>
                     </div>
                   )}
                 </div>
-                <p className="text-sm text-gray-500 mt-4">
+                <p className="text-foreground/60 text-lg">
                   Drop a new image to replace, or adjust the effect below
                 </p>
               </div>
@@ -167,57 +179,54 @@ export default function UnifiedEditor() {
           </div>
         </div>
 
-        {/* Effect Controls */}
-        {selectedFile && (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Choose Effect</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {effectOptions.map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => handleEffectChange(option.value)}
-                    disabled={isProcessing}
-                    className={`
-                      p-4 rounded-lg border-2 text-left transition-all
-                      ${selectedEffect === option.value
-                        ? 'border-pink-500 bg-pink-50 text-pink-700'
-                        : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                      }
-                      ${isProcessing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                    `}
-                  >
-                    <div className="font-semibold">{option.label}</div>
-                    <div className="text-sm mt-1 opacity-80">{option.description}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Download Button */}
-            <div className="flex justify-center">
-              <button
-                onClick={handleDownload}
-                disabled={!processedDataUrl || isProcessing}
-                className="btn-primary px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isProcessing ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    <span>Processing...</span>
-                  </div>
-                ) : (
-                  'Download PNG'
-                )}
-              </button>
+        {/* macOS Style Effect Controls - Always Visible */}
+        <div className="flex flex-col items-center space-y-8">
+          <div className="bg-card/30 backdrop-blur-xl rounded-2xl p-2 border border-white/10 shadow-xl">
+            <div className="flex bg-card/50 rounded-xl p-1 gap-1">
+              {effectOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => handleEffectChange(option.value)}
+                  disabled={isProcessing}
+                  className={`
+                    px-6 py-3 rounded-lg font-semibold transition-all duration-200 min-w-[140px]
+                    ${selectedEffect === option.value
+                      ? 'bg-white text-card shadow-md transform scale-105'
+                      : 'text-foreground/70 hover:text-foreground hover:bg-white/10'
+                    }
+                    ${isProcessing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                  `}
+                >
+                  {option.label}
+                </button>
+              ))}
             </div>
           </div>
-        )}
+
+          {/* Download Button - Always Visible */}
+          <button
+            onClick={handleDownload}
+            disabled={!processedDataUrl || isProcessing}
+            className="btn btn-primary px-12 py-4 text-xl font-semibold disabled:opacity-30 disabled:cursor-not-allowed min-w-[200px]"
+          >
+            {isProcessing ? (
+              <div className="flex items-center space-x-3">
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white"></div>
+                <span>Processing...</span>
+              </div>
+            ) : (
+              <>
+                <span className="mr-2">💾</span>
+                Download PNG
+              </>
+            )}
+          </button>
+        </div>
 
         {/* Error Message */}
         {error && (
-          <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-700 text-sm">{error}</p>
+          <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 backdrop-blur-sm">
+            <p className="text-destructive font-medium text-center">{error}</p>
           </div>
         )}
       </div>
