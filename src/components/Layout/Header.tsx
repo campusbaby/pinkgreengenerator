@@ -12,7 +12,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-18">
           <div className="flex items-center">
             <Link href="/" className="text-xl font-bold gradient-text flex items-center gap-2">
-              <span className="text-2xl">✨</span>
+              <img src="/favicon.ico" alt="Pink Green Generator" className="w-8 h-8" />
               Pink Green Generator
             </Link>
           </div>

@@ -12,29 +12,6 @@ export const metadata: Metadata = {
   keywords: 'pink green generator, brave pink hero green, duotone photo editor, online photo filter, pink green photo effect, tiktok filter, instagram effect, social media photo editor',
   authors: [{ name: 'Pink Green Generator' }],
   robots: 'index, follow',
-  openGraph: {
-    title: 'Pink Green Generator - Create Brave Pink Hero Green Effects Online',
-    description: 'Free online pink green photo editor. Transform your images with stunning duotone effects that embody courage and unity.',
-    type: 'website',
-    url: 'https://pinkgreengenerator.app',
-    siteName: 'Pink Green Generator',
-    locale: 'en_US',
-    images: [
-      {
-        url: 'https://pinkgreengenerator.app/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Pink Green Generator - Create Brave Pink Hero Green Effects',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Pink Green Generator - Create Brave Pink Hero Green Effects Online',
-    description: 'Free online pink green photo editor. Transform your images with stunning duotone effects that embody courage and unity.',
-    images: ['https://pinkgreengenerator.app/og-image.jpg'],
-    creator: '@pinkgreengenerator',
-  },
   alternates: {
     canonical: 'https://pinkgreengenerator.app',
   },
@@ -78,7 +55,6 @@ export default function RootLayout({
                 "Multiple effect options",
                 "High-quality PNG export"
               ],
-              "screenshot": "https://pinkgreengenerator.app/screenshot.jpg",
               "softwareVersion": "2.0",
               "dateModified": "2025-09-04"
             }),

@@ -56,7 +56,7 @@ export default function HowItWorks() {
             </div>
             
             {/* Features */}
-            <div className="mt-8 lg:ml-[300px] lg:pl-8">
+            <div className="mt-8">
               <div className="flex flex-col md:flex-row md:gap-8 space-y-3 md:space-y-0">
                 <div className="flex items-center gap-3 text-foreground/60">
                   <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
@@ -104,7 +104,7 @@ export default function HowItWorks() {
             </div>
             
             {/* Effect Options */}
-            <div className="mt-8 lg:mr-[300px] lg:pr-8 lg:text-right">
+            <div className="mt-8 lg:text-right">
               <div className="flex flex-col md:flex-row md:gap-8 space-y-3 md:space-y-0 lg:justify-end">
                 <div className="flex items-center gap-3 text-foreground/60">
                   <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
@@ -153,7 +153,7 @@ export default function HowItWorks() {
             </div>
             
             {/* Download Features */}
-            <div className="mt-8 lg:ml-[300px] lg:pl-8">
+            <div className="mt-8">
               <div className="flex flex-col md:flex-row md:gap-8 space-y-3 md:space-y-0">
                 <div className="flex items-center gap-3 text-foreground/60">
                   <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
